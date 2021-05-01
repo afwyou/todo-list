@@ -6,4 +6,4 @@ const todoSchema = new Schema({
     required: true // 這是個必填欄位
   }
 })
-module.exports = mongoose.model('Todo', todoSchema)
+module.exports = mongoose.model('Todo', todoSchema)//把這份 schema 命名為 Todo，以後在其他的檔案直接使用 Todo 就可以操作和「待辦事項」有關的資料了！
