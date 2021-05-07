@@ -1,4 +1,4 @@
-<form action="/todos/{{ todo._id }}/edit" method="POST">
+<form action="/todos/{{ todo._id }}?_method=PUT" method="POST">
   <input type="checkbox" name="check" {{#if todo.isDone}} checked {{/if}}> {{!--
   這個欄位本身和物件實例沒什麼關係，而是透過物件實例的變數傳過來使用之後，才會在這個表單上面呈現跟物件實例屬性有關的畫面--}}
 

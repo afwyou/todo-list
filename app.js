@@ -5,12 +5,11 @@ mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUn
 const db = mongoose.connection
 const Todo = require('./models/todo')
 const bodyParser = require('body-parser')
+// 設定每一筆請求都會透過 methodOverride 進行前置處理
+const methodOverride = require('method-override')
 
 const exphbs = require('express-handlebars');
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
-app.set('view engine', 'hbs')
-app.use(bodyParser.urlencoded({ extended: true }))
 
 db.on('error', () => {
   console.log('mongodb error!')
@@ -27,6 +26,12 @@ app.get('/', (req, res) => {
     .then(todos => res.render('index', { todos }))//.then() 這一步資料會被放進 todos 變數，再把資料傳給index樣板
     .catch(error => console.error(error))//錯誤處理
 })
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
+app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(methodOverride('_method'))
+
 
 app.get('/todos/new', (req, res) => {
   return res.render('new')
@@ -48,7 +53,7 @@ app.get('/todos/:id', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.get('/todos/:id/edit', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id)
     .lean()
@@ -74,7 +79,7 @@ app.post('/todos/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id)
     .then(todo => todo.remove())
