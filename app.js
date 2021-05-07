@@ -57,13 +57,19 @@ app.get('/todos/:id/edit', (req, res) => {
 
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id
-  const name = req.body.name
+  const { name, check } = req.body
   return Todo.findById(id)
     .then(todo => {
       todo.name = name
+      todo.isDone = check === 'on'
+      // 這裡的isDone並不是物件實例的屬性isDone
+      // 而是因為有一個name為isDone的表單，因為回傳了on的值，所以可以透過條件是形成true的布林值，這個true的布林值才會再儲存入物件實例中isDone的屬性
+      //最後如果todo.isDone = true,再傳到view頁面的if條件式，進行checked與否的狀態
+
+      // 取得input勾選的on值，取得該欄位的req的布林值，存入model的布林值，回傳到畫面if去判定是否要checked
       return todo.save()
     })
-    .then(() => res.redirect(`/todos/${id}`))//這是fetail頁面的路由
+    .then(() => res.redirect(`/todos/${id}`))//這是detail頁面的路由
     .catch(error => console.log(error))
 })
 
