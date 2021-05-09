@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const PORT = process.env.PORT || 3000
 const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/todo-list', { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
@@ -29,6 +30,6 @@ app.use(routes)
 // index.js總路由在匯入app.js
 
 
-app.listen(3000, () => {
-  console.log('app is running on http://localhost:3000')
+app.listen(PORT, () => {
+  console.log(`app is running on http://localhost:${PORT}`)
 })
