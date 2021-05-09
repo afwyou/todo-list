@@ -1,4 +1,4 @@
-require('../../config/mongoose')
+const de = require('../../config/mongoose')
 const Todo = require('../todo') // 載入 todo model
 
 
