@@ -1,8 +1,20 @@
-<input type="checkbox" name="check" {{#if todo.isDone }} checked {{/if}} disabled>
-<p>{{todo.name}}</p>
-<a href="/todos/{{ todo._id }}/edit">edit</a>
-{{!-- 經由資料庫的todo實例所渲染的畫面，把實例的id屬性綁在連結上，點擊時可以送出請網址的請求而這些id部分的內容經由路由的動態變數設定，因此可以再導入另一個路由請求 --}}
-<a href="/">back</a>
 <form action="/todos/{{ todo._id }}?_method=DELETE" method="POST" style="display: inline;">
-  <button type="submit">delete</button>
+  <div class="input-group">
+
+    <div class="input-group-prepend">
+
+      <div class="input-group-text">
+        <input type="checkbox" name="isDone" {{#if todo.isDone }} checked {{/if}} disabled>
+      </div>
+
+    </div>
+
+    <input class="form-control" type="text" placeholder="name" name="name" value="{{ todo.name }}" disabled>
+
+    <div class="input-group-append">
+      <a class="btn btn-success" href="/todos/{{ todo._id }}/edit">edit</a>
+      <button class="btn btn-danger" type="submit">delete</button>
+    </div>
+
+  </div>
 </form>
